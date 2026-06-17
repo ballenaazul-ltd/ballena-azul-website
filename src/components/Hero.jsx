@@ -1,4 +1,21 @@
+import { Link } from "react-router-dom";
 import { hero } from "../content.js";
+
+function CtaLink({ href, className, children }) {
+  if (href.startsWith("/") && !href.includes("#")) {
+    return (
+      <Link to={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  );
+}
 
 export default function Hero() {
   return (
@@ -21,18 +38,18 @@ export default function Hero() {
       </p>
 
       <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <a
+        <CtaLink
           href={hero.primaryCta.href}
           className="rounded-full bg-whale px-8 py-3 font-semibold text-foam transition-transform hover:scale-105"
         >
           {hero.primaryCta.label}
-        </a>
-        <a
+        </CtaLink>
+        <CtaLink
           href={hero.secondaryCta.href}
           className="rounded-full border border-tide px-8 py-3 font-semibold text-foam transition-colors hover:bg-surface"
         >
           {hero.secondaryCta.label}
-        </a>
+        </CtaLink>
       </div>
     </section>
   );

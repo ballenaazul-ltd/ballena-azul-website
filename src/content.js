@@ -6,11 +6,11 @@ export const brand = {
 };
 
 export const navLinks = [
-  { label: "The Problem", href: "#stats" },
-  { label: "Why It Matters", href: "#why" },
-  { label: "Chains", href: "#chains" },
-  { label: "Roadmap", href: "#roadmap" },
-  { label: "Litepaper", href: "#litepaper" },
+  { label: "The Problem", href: "/#stats" },
+  { label: "Why It Matters", href: "/#why" },
+  { label: "Chains", href: "/#chains" },
+  { label: "Roadmap", href: "/#roadmap" },
+  { label: "Litepaper", href: "/#litepaper" },
 ];
 
 export const hero = {
@@ -19,8 +19,8 @@ export const hero = {
   titleTrailing: "Without the Panic.",
   body:
     "Ballena Azul is a DeFi transparency protocol that lets large holders signal their intentions on-chain — voluntary labeling, scheduled disclosures, and trust badges — so markets stop reacting to fear and start responding to facts.",
-  primaryCta: { label: "Explore the Problem", href: "#stats" },
-  secondaryCta: { label: "Read the Roadmap", href: "#roadmap" },
+  primaryCta: { label: "Explore the Problem", href: "/#stats" },
+  secondaryCta: { label: "Verify Token", href: "/verify" },
 };
 
 export const stats = {
