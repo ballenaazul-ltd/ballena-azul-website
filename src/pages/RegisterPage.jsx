@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { registerWhale } from "../api/whale.js";
 import { getAuthAddress, getAuthToken } from "../api/auth.js";
 import { registerChains } from "../content.js";
-import { connectAndSignIn, shortenAddress } from "../lib/walletAuth.js";
+import {
+  connectWalletOnly,
+  shortenAddress,
+  signInWithWallet,
+} from "../lib/walletAuth.js";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
@@ -38,17 +42,42 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      const session = await connectAndSignIn();
+      const session = await connectWalletOnly();
       setWalletAddress(session.address);
-      setAuthToken(session.token);
+      setAuthToken("");
       setStatus("idle");
     } catch (connectError) {
       setStatus("error");
-      setError(
+      const message =
         connectError instanceof Error
           ? connectError.message
-          : "Wallet sign-in failed.",
-      );
+          : "Wallet connection failed.";
+      setError(message);
+      console.error("Wallet connection failed:", connectError);
+    }
+  }
+
+  async function handleSignIn() {
+    if (!walletAddress) {
+      setError("Connect your wallet before signing in.");
+      return;
+    }
+
+    setStatus("connecting");
+    setError("");
+
+    try {
+      const session = await signInWithWallet(walletAddress);
+      setAuthToken(session.token);
+      setStatus("idle");
+    } catch (signError) {
+      setStatus("error");
+      const message =
+        signError instanceof Error
+          ? signError.message
+          : "Wallet sign-in failed.";
+      setError(message);
+      console.error("Wallet sign-in failed:", signError);
     }
   }
 
@@ -176,15 +205,25 @@ export default function RegisterPage() {
           onSubmit={handleSubmit}
           className="card mx-auto mt-12 max-w-xl space-y-6"
         >
-          <div className="rounded-xl border border-tide/60 bg-deep/60 p-4">
+          <div className="space-y-4 rounded-xl border border-tide/60 bg-deep/60 p-4">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="text-left">
                 <p className="text-sm font-medium text-foam">Wallet sign-in</p>
                 <p className="mt-1 text-sm text-muted">
                   {walletAddress
                     ? `Connected: ${shortenAddress(walletAddress)}`
-                    : "Connect MetaMask or another Ethereum wallet."}
+                    : "Step 1: connect your Bitget or MetaMask wallet."}
                 </p>
+                {walletAddress && !authToken && (
+                  <p className="mt-1 text-sm text-muted">
+                    Step 2: sign the message to verify you control this wallet.
+                  </p>
+                )}
+                {authToken && (
+                  <p className="mt-1 text-sm text-emerald-200">
+                    Wallet verified. You can register below.
+                  </p>
+                )}
               </div>
               <button
                 type="button"
@@ -192,13 +231,26 @@ export default function RegisterPage() {
                 disabled={status === "connecting" || status === "loading"}
                 className="rounded-full border border-tide px-5 py-2 text-sm font-semibold text-foam transition-colors hover:bg-surface disabled:opacity-60"
               >
-                {status === "connecting"
-                  ? "Signing in..."
+                {status === "connecting" && !walletAddress
+                  ? "Connecting..."
                   : walletAddress
                     ? "Reconnect wallet"
                     : "Connect wallet"}
               </button>
             </div>
+
+            {walletAddress && !authToken && (
+              <button
+                type="button"
+                onClick={handleSignIn}
+                disabled={status === "connecting" || status === "loading"}
+                className="w-full rounded-full bg-whale py-2 text-sm font-semibold text-foam transition-transform hover:scale-[1.01] disabled:opacity-60"
+              >
+                {status === "connecting"
+                  ? "Waiting for signature..."
+                  : "Sign in with wallet"}
+              </button>
+            )}
           </div>
 
           <div>
@@ -275,7 +327,7 @@ export default function RegisterPage() {
           {error && (
             <div
               role="alert"
-              className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+              className="whitespace-pre-line rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
             >
               {error}
             </div>

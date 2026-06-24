@@ -29,6 +29,10 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_SIWE_DOMAIN: ${{ vars.VITE_SIWE_DOMAIN }}
+          VITE_SIWE_URI: ${{ vars.VITE_SIWE_URI }}
         run: npm run build:pages
 
       - name: Add SPA fallback for client-side routes
