@@ -16,3 +16,26 @@ export async function apiGet(path) {
 
   return { ok: response.ok, status: response.status, body };
 }
+
+export async function apiPost(path, data, token) {
+  const headers = { "Content-Type": "application/json" };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${getApiBaseUrl()}${path}`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(data),
+  });
+
+  let body;
+  try {
+    body = await response.json();
+  } catch {
+    body = { error: "Invalid response from server." };
+  }
+
+  return { ok: response.ok, status: response.status, body };
+}

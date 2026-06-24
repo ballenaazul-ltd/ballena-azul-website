@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { brand, navLinks } from "../content.js";
+import WhaleLogo from "./WhaleLogo.jsx";
 
 const SCROLL_THRESHOLD = 24;
 
@@ -25,7 +26,7 @@ export default function Navbar() {
     >
       <nav className="mx-auto flex max-w-content items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-2 font-bold">
-          <span className="text-xl">🐋</span>
+          <WhaleLogo variant="compact" className="h-8 w-auto" />
           <span>{brand.name}</span>
           <span className="hidden text-sm font-normal text-muted sm:inline">
             {brand.launchLabel}
@@ -42,6 +43,17 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+
+          <Link
+            to="/register"
+            className={`hidden rounded-full px-4 py-2 text-sm font-semibold transition-colors sm:inline-flex ${
+              location.pathname === "/register"
+                ? "bg-whale text-foam"
+                : "border border-tide text-foam hover:bg-surface"
+            }`}
+          >
+            Register
+          </Link>
 
           <Link
             to="/verify"

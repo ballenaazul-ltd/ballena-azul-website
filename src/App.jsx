@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import VerifyPage from "./pages/VerifyPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 export default function App() {
   return (
@@ -12,6 +14,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/verify" element={<VerifyPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile/:address" element={<ProfilePage />} />
       </Routes>
       <Footer />
     </div>

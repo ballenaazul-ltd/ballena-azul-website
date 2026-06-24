@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { hero } from "../content.js";
+import WhaleLogo from "./WhaleLogo.jsx";
 
 function CtaLink({ href, className, children }) {
   if (href.startsWith("/") && !href.includes("#")) {
@@ -20,6 +21,11 @@ function CtaLink({ href, className, children }) {
 export default function Hero() {
   return (
     <section id="top" className="section-shell pt-40 text-center">
+      <WhaleLogo
+        variant="hero"
+        className="mx-auto mb-8 h-auto w-full max-w-md animate-float"
+      />
+
       <span className="inline-flex items-center gap-2 rounded-full border border-tide bg-surface/60 px-4 py-1.5 text-sm text-glow">
         <span className="h-2 w-2 animate-pulse rounded-full bg-glow" />
         {hero.badge}

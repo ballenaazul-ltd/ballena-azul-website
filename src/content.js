@@ -155,3 +155,20 @@ export const litepaper = {
     "A concise technical overview of the protocol: the trust model, the disclosure mechanism, the NFT credential system, and why voluntary transparency beats forced surveillance for reducing whale-driven market panic.",
   status: "Coming Q3 2026",
 };
+
+export const registerChains = [
+  { value: "ethereum", label: "Ethereum" },
+  { value: "bsc", label: "BNB Chain" },
+  { value: "solana", label: "Solana" },
+  { value: "polygon", label: "Polygon" },
+  { value: "avalanche", label: "Avalanche" },
+  { value: "arbitrum", label: "Arbitrum" },
+  { value: "base", label: "Base" },
+  { value: "bitcoin", label: "Bitcoin" },
+  { value: "cardano", label: "Cardano" },
+  { value: "tezos", label: "Tezos" },
+  { value: "flow", label: "Flow" },
+  { value: "near", label: "Near" },
+  { value: "aptos", label: "Aptos" },
+  { value: "sui", label: "Sui" },
+];
